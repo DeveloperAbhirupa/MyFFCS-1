@@ -1,6 +1,6 @@
 const fs = require("fs");
 require("./connect");
-var model = require("./model");
+var model = require("./model").courseModel;
 
 
 //function to load the JSON into database

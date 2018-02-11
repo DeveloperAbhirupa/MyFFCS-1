@@ -11,15 +11,18 @@ $(document).ready(function(){
 
 
 
-    $("#btn").on("click",function(){
+    $("#btn").on("click",function(e){
+
+        //e is the event data, and this prevents form submission (not committed)
+        e.preventDefault();
+
 
         //input will be posted to the server
         var input = { /*$("input").attr("name")*/CODE : $("input").val() };
 
 
-
         //Post AJAX request to server and fetch JSON data
-        $.post("/",input,function(res){
+        $.post("/timetable",input,function(res){
 
 
             //Clear the html of data
@@ -29,10 +32,24 @@ $(document).ready(function(){
             //parse the JSON that we have got back into object
             res = JSON.parse(res);
 
+            //set the course title
+            if(res.theory.morning[0]!==undefined)
+                $("#title").html(res.theory.morning[0].TITLE);
+            else if(res.lab.morning[0]!==undefined)
+                $("#title").html(res.lab.morning[0].TITLE);
+            else if(res.project[0]!==undefined)
+                $("#title").html(res.project[0].TITLE);
 
+            // hide the type of course which isnt the one displayed
+            // if(res.theory.morning.length === 0 && res.theory.evening.length === 0 )
+            //     $("#theory").hide();
+            // if(res.lab.morning.length === 0 && res.lab.evening.length === 0 )
+            //     $("#lab").hide();
+            // if(res.project.length  === 0 )
+            //     $("#project").hide()
 
             //set content of body
-            var content = "<div class = 'content'> <h2>Theory</h2><br><h3>Morning slots</h3>";
+            var content = "<div class = 'content'> <h2 id= 'theory'>Theory</h2><br><h3>Morning slots</h3>";
 
             res.theory.morning.forEach(function(element){
 
@@ -49,7 +66,7 @@ $(document).ready(function(){
 
             });
 
-                content += "<h2>Lab</h2><br><h3>Morning slots</h3>";
+                content += "<h2 id='lab'>Lab</h2><br><h3>Morning slots</h3>";
 
             res.lab.morning.forEach(function(element){
 
@@ -67,7 +84,7 @@ $(document).ready(function(){
 
             });
 
-            content += "<h2>Project</h2>";
+            content += "<h2 id='project'>Project</h2>";
 
             res.project.forEach(function(element){
 
@@ -82,10 +99,6 @@ $(document).ready(function(){
 
         });
 
-
-
-            //stop the form from completing submit action
-            return false;
 
     });
 

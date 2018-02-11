@@ -11,8 +11,23 @@ var schema = new mongoose.Schema({
     VENUE:String
 });
 
+
+//create a schema for storing user credentials and courses selected
+var profileschema = new mongoose.Schema({
+    email:String,
+    passwd:String,
+    courses:[]
+});
+
+
 //create a model based on the schema
 var model = mongoose.model('course',schema);
 
-//export the model
-module.exports = model;
+
+//create a model for the profile collection
+var profilemodel = mongoose.model('profile',profileschema);
+
+
+//export the models
+module.exports.courseModel = model;
+module.exports.profileModel = profilemodel;

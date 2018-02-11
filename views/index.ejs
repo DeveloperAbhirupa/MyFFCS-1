@@ -4,30 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="../static/scripts.js"></script>
-    <link rel="stylesheet" href="../static/styles.css">
     <title>Index</title>
 </head>
-<center><body>
-    <form action="/" class="form" method="post">
-        <input type="text" placeholder="CODE" name="CODE"> <br>
-        <!-- <input type="text" placeholder="SLOT" name="SLOT" > <br>
-        <input type="text" placeholder="TITLE" name="TITLE" > <br>
-        <input type="text" placeholder="VENUE" name="VENUE" > <br>
-        <input type="text" placeholder="TYPE" name="TYPE" > <br>
-        <input type="text" placeholder="FACULTY" name="FACULTY" > <br>
-        <input type="text" placeholder="CREDITS" name="CREDITS" > <br> -->
-        <button type="submit" id="btn">submit</button>
+<body style="background-color:grey">
+    <form action="/" method="post">
+        <input type="text" name="email" placeholder="Email" >
+        <input type="password" name="passwd" placeholder = "Password">
+        <button type="submit">Login</button>
     </form>
-    <h3>Select the details</h3><br><br>
-    <!-- <% if(data!=='') { data.forEach(function(item){ %>
-        FACULTY: <%= item.FACULTY %> <br>
-        COURSE CODE: <%= item.CODE %> <br>
-        SLOT: <%= item.SLOT %> <br><br><br><br>
-    <% }) }; %> -->
-    <h3 id="data"></h3>
 
+    <h1>OR</h1>
+
+    <form action="/" method="post">
+        <input type="text" name="email" placeholder="Email" >
+        <input type="password" name="passwd" placeholder = "Password">
+        <input type="password" name="confirm" placeholder = "Confirm Password">
+        <button type="submit">Signup</button>
+    </form>
 </body>
-</center>
 </html>

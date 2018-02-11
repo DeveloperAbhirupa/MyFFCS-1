@@ -1,63 +1,90 @@
-const model = require("./database/model");
+const model = require("./database/model").courseModel;
+const profileModel = require("./database/model").profileModel;
 
+//to segreagate data into morning and evening theory and lab slots
+const segregateData = require("./helpers").segregateData;
 
+//hash function for storing passwords
+const hashAndSave = require("./helpers").hashAndSave;
 
-//Function to segregate data to lab/theory slots and morning/evening slots
-function segregateData(data){
-
-    var object = {
-        theory:{ morning:[],evening:[] },
-        lab:{ morning:[],evening:[]  },
-        project:[]
-    };
-
-    data.forEach(function(element){
-
-
-        //If venue is NIL then it specifies project component of the course
-        if(element.VENUE === 'NIL'){
-            object.project.push(element);
-        }
-
-
-        //If SLOT starts with L then its a lab slot
-        else if(element.SLOT[0]==='L')
-            {
-                var n = element.SLOT.length;
-
-                if( element.SLOT[n-2] === 'L' || element.SLOT[n-2] === '1' || element.SLOT[n-2] === '2' || (element.SLOT[n-2] === '3' && element.SLOT[n-1] === '0') )
-                    object.lab.morning.push(element);
-
-                //if L31 onwards then evening
-                else
-                    object.lab.evening.push(element);
-            }
-
-        //for theory slots
-        else
-            {
-                //if last character of a theory class is '1' then its morning slot
-                if( element.SLOT[ element.SLOT.length -1] === '1' )
-                    object.theory.morning.push(element);
-                else
-                    object.theory.evening.push(element)
-            }
-    });
-
-    //change this to return segregated_data
-    return object;
-}
-
-
-
-
-
-
+//to check hashed password
+const bcrypt = require("bcrypt");
 
 module.exports = function(app,urlencodedParser){
 
-    app.get("/",function(req,res){
-        res.render("index",{data:''});
+
+
+
+    app.get('/',function(req,res){
+        res.render('index');
+    });
+
+
+
+    //TODO hash password before storing
+    app.post('/',urlencodedParser,function(req,res){
+
+        console.log(req.body);
+        //if posted registration form
+        if(req.body.confirm !== undefined){
+
+            var obj =  { email:req.body.email,passwd:req.body.passwd };
+
+            profileModel.findOne( {email:req.body.email} ).then(function(data){
+
+                if(data === null  ){
+
+                    obj = new profileModel( { email:req.body.email,passwd:req.body.passwd,courses:[] } );
+
+                    hashAndSave(obj).then(function(){
+                        res.redirect('/timetable');
+                    });
+
+                }
+
+                else{
+                    res.send("Someone with this email already exists");
+                }
+
+            });
+
+        }
+
+        //if trying to log in
+        else{
+
+            profileModel.findOne( {email:req.body.email} ).then(function(data){
+
+                if(data === null)
+                    res.send("User not found");
+
+                else{
+
+
+                    //check hash against password
+                    bcrypt.compare(req.body.passwd,data.passwd,function(err,result){
+
+
+                          if(result)
+                            res.redirect('/timetable');
+
+                          else
+                            res.send("incorrect password");
+                    });
+
+                }
+
+
+            });
+
+        }
+
+
+
+
+
+        //
+
     });
 
 
@@ -65,7 +92,20 @@ module.exports = function(app,urlencodedParser){
 
 
 
-    app.post("/",urlencodedParser,function(req,res){
+
+
+
+
+    app.get("/timetable",function(req,res){
+        res.render("timetable");
+    });
+
+
+
+
+
+
+    app.post("/timetable",urlencodedParser,function(req,res){
 
         console.log(req.body);
 
@@ -77,7 +117,6 @@ module.exports = function(app,urlencodedParser){
             res.send( JSON.stringify(segregated_data) );
 
         });
-
 
 
 
