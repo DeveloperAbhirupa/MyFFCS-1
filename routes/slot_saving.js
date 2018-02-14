@@ -10,10 +10,7 @@ router.get("/logout",(req,res)=>{
     res.redirect('/');
 });
 
-module.exports = router;
 
-
-/////////////////////////////TODO////////////////////////////////////////
 
 /* makes an array of clicked course slots and matches them against all alots in the database,
 if match found then slot clashed */
@@ -58,10 +55,17 @@ router.post("/save",async function(req,res){
 
 
 });
-///////////////////////////////TODO/////////////////////////////////////
+
+///////////////////////////////TODO-> Deleting//////////////////////////////////
 
 
+router.delete('/del',(req,res)=>{
 
+    console.log("REACHED THIS ROUTE VIA DELETE REQUEST");
+});
+
+
+module.exports = router;
 
 /*let kappa;
 

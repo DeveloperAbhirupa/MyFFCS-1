@@ -28,6 +28,7 @@
             SLOT: <%= element.SLOT %> <br>
             VENUE: <%= element.VENUE %> <br>
         </button>
+        <button onclick = 'del(<%=JSON.stringify(element)%>)'>Delete</button>
         <br><br>
         <% }); %>
 
