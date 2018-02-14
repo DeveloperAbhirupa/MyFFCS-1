@@ -81,3 +81,16 @@ module.exports.hashAndSave = function(obj){
 
 
 }
+
+
+
+//checks for slot clash
+module.exports.checkClash = (slots,string)=>{
+
+    for( slot of slots ){
+
+        if( string.indexOf(slot)!==-1 )
+            return slot;
+    }
+    return false;
+}

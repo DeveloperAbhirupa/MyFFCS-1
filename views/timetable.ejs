@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="../static/scripts.js"></script>
+    <script src="../static/script2.js"></script>
     <link rel="stylesheet" href="../static/styles.css">
     <title>Index</title>
 </head>
@@ -14,11 +15,28 @@
         <input type="text" placeholder="CODE" name="CODE"> <br>
         <button type="submit" id="btn">submit</button>
     </form>
-
+    <a href="/timetable/logout">Logout</a>
     <h2 id="title">Course title</h2>
 
     <h3>Select the details</h3><br><br>
+
+
+    <h3 id="courses">
+        <% if(data!==null) data.forEach(function(element){ %>
+        <button style="color:red">
+            FACULTY: <%= element.FACULTY %> <br>
+            SLOT: <%= element.SLOT %> <br>
+            VENUE: <%= element.VENUE %> <br>
+        </button>
+        <br><br>
+        <% }); %>
+
+    </h3>
+
+
     <h3 id="data"></h3>
+    <br><br>
+
 
 </body>
 </center>

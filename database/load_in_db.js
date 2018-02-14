@@ -24,7 +24,7 @@ function load_json(){
                         var element = new model(info);
                         element.save().then(function(){
                             count++;
-                            console.log("saved an entry" + count.toString());
+                            console.log("saved an entry-->" + count.toString());
                         });
 
                     });

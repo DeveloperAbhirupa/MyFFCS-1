@@ -1,15 +1,6 @@
 
 $(document).ready(function(){
 
-    ///This function not running even after adding event listener on buttons TODO
-    function store(element){
-        alert(element.name);
-    }
-
-
-
-
-
 
     $("#btn").on("click",function(e){
 
@@ -53,7 +44,7 @@ $(document).ready(function(){
 
             res.theory.morning.forEach(function(element){
 
-                content += "<br><br><br><button onclick = 'store(" + element + " )'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
+                content += "<br><br><br><button onclick='store("+JSON.stringify(element)+")'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
 
             });
 
@@ -62,7 +53,7 @@ $(document).ready(function(){
 
             res.theory.evening.forEach(function(element){
 
-                content += "<br><br><br><button onclick = 'store(" + element + " )'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
+                content += "<br><br><br><button onclick = 'store("+JSON.stringify(element)+")'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
 
             });
 
@@ -70,7 +61,7 @@ $(document).ready(function(){
 
             res.lab.morning.forEach(function(element){
 
-                content += "<br><br><br><button onclick = 'store(" + element + " )'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
+                content += "<br><br><br><button onclick = 'store("+JSON.stringify(element)+")' >Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
 
             });
 
@@ -80,7 +71,7 @@ $(document).ready(function(){
 
             res.lab.evening.forEach(function(element){
 
-                content += "<br><br><br><button onclick = 'store(" + element + " )'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
+                content += "<br><br><br><button onclick = 'store("+JSON.stringify(element)+")'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "<br>VENUE: " + element.VENUE+"</button>";
 
             });
 
@@ -88,7 +79,7 @@ $(document).ready(function(){
 
             res.project.forEach(function(element){
 
-                content += "<br><br><br><button onclick = 'store(" + element + " )'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "</button>";
+                content += "<br><br><br><button onclick = 'store("+JSON.stringify(element)+")'>Faculty: " + element.FACULTY + "<br>SLOT: " + element.SLOT + "</button>";
 
             });
 
