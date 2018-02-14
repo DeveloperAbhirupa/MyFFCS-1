@@ -61,7 +61,28 @@ router.post("/save",async function(req,res){
 
 router.delete('/del',(req,res)=>{
 
-    console.log("REACHED THIS ROUTE VIA DELETE REQUEST");
+    console.log(req.body.VENUE);
+
+    // profileModel.findOne( {email:req.session.email,courses:[req.body]} ).then((data)=>{
+    //     console.log(data);
+    // })
+
+    profileModel.update( {email:req.session.email},{$pop: {courses:req.body} }  ).then( ()=>{
+
+        console.log("removed course!");
+
+        profileModel.findOne( {email:req.session.email} ).then( (data)=>{
+
+            res.render("timetable",{data:data.courses});
+        });
+
+    }).catch( (err)=>{
+        console.log(err);
+    });
+
+
+
+
 });
 
 

@@ -16,8 +16,6 @@ const router = require("express").Router();
 
 
 
-//TODO requests.session
-var session='';
 
 router.get('/',function(req,res){
     res.render('index');
