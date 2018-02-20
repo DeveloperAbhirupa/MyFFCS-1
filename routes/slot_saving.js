@@ -14,6 +14,7 @@ router.get("/logout",(req,res)=>{
 
 /* makes an array of clicked course slots and matches them against all alots in the database,
 if match found then slot clashed */
+//There is a better method to do this
 router.post("/save",async function(req,res){
 
     console.log(req.session.email+" Logged in");
@@ -63,27 +64,20 @@ router.delete('/del',(req,res)=>{
 
     console.log(req.body.VENUE);
 
-    // profileModel.findOne( {email:req.session.email,courses:[req.body]} ).then((data)=>{
-    //     console.log(data);
-    // })
 
-    profileModel.update( {email:req.session.email},{$pop: {courses:req.body} }  ).then( ()=>{
+    profileModel.update( {email:req.session.email},{$pull: {courses:req.body} }  ).then( ()=>{
 
         console.log("removed course!");
 
-        profileModel.findOne( {email:req.session.email} ).then( (data)=>{
-
-            res.render("timetable",{data:data.courses});
-        });
+        res.send("deleted course");
 
     }).catch( (err)=>{
         console.log(err);
     });
 
 
-
-
 });
+
 
 
 module.exports = router;

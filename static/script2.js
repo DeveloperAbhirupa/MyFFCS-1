@@ -31,7 +31,7 @@ function del(element){
         data:element,
         success:function(){
             console.log("Successfully sent the delete request");
-            //location.reload();
+            location.reload();
         },
         error:function(){
             console.log("Error sending delete AJAX request");
