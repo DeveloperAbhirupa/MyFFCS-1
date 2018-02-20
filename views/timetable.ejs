@@ -11,16 +11,19 @@
     <title>Index</title>
 </head>
 <center><body>
+    <a href="/timetable/logout">Logout</a><br>
     <form action="/timetable" class="form" method="post">
-        <input type="text" placeholder="CODE" name="CODE"> <br>
+        <input type="text" placeholder="CODE" name="CODE" id="code"> <br>
         <button type="submit" id="btn">submit</button>
     </form>
-    <a href="/timetable/logout">Logout</a>
+
+    <div id="predictions"></div><br>
+
     <h2 id="title">Course title</h2>
 
     <h3>Select the details</h3><br><br>
 
-
+    <h3 id="credits">Total Credits: <%= credits %></h3><br><br>
     <h3 id="courses">
         <% if(data!==null) data.forEach(function(element){ %>
         <button style="color:red">

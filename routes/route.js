@@ -97,7 +97,21 @@ router.get("/timetable",function(req,res){
 
     profileModel.findOne( {email:req.session.email} ).then( (data)=>{
 
-        res.render("timetable",{data:data.courses});
+
+        //to calculate total number of credits
+        var credits = function(elements){
+
+            var summ=0;
+
+            for(element of elements){
+                summ += parseInt(element.CREDITS);
+            }
+            return summ;
+        }
+
+
+
+        res.render("timetable",{data:data.courses,credits:credits(data.courses)});
     });
 
 });

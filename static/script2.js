@@ -10,6 +10,7 @@ function store(data){
         } else{
             alert("Updated! As of now you have "+res.info+" credits");
             $("#courses").append("<br><button style='color:red'> Faculty: " + res.course.FACULTY + "<br>SLOT: " + res.course.SLOT + "<br>VENUE: " + res.course.VENUE+"</button><button onclick = 'del("+JSON.stringify(res.course)+")'>Delete</button>");
+            $('#credits').html("Total Credits: "+ ( res.info ).toString() );
         }
     });
 
@@ -19,11 +20,9 @@ function store(data){
 
 
 
-//TODO delete elements after clicking on button, reach /timetable/delete using $.ajax's delete method
+//deletes elements after clicking on button, reaches /timetable/delete using $.ajax's delete method
 
 function del(element){
-
-    console.log(element);
 
     $.ajax({
         url:'/timetable/del',
@@ -38,3 +37,38 @@ function del(element){
         }
     });
 }
+
+
+
+
+function predictHandler(data){
+    $("#code").val(data.code)
+    $("#predictions").html('');
+}
+
+
+
+//TODO predictive text
+$(document).ready( ()=>{
+
+    $("#code").on("keyup",()=>{
+
+        $.post('/timetable/predict', { code:$("#code").val().toUpperCase() }, (res)=>{
+
+            var content = '',i=0;
+
+            //shows only top 5 hits, and appends the details in contents
+            for(element of res){
+                content += "<button onclick = 'predictHandler("+JSON.stringify(element)+")'><h3>"+element.code+"   "+element.title+"</h3></button><br>";
+            }
+
+            //changes html of page to show prediction results
+            $("#predictions").html(content);
+
+        });
+
+
+    });
+
+
+});

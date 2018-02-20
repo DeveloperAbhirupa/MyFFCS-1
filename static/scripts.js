@@ -9,7 +9,7 @@ $(document).ready(function(){
 
 
         //input will be posted to the server
-        var input = { /*$("input").attr("name")*/CODE : $("input").val() };
+        var input = { CODE : $("input").val().toUpperCase() };
 
 
         //Post AJAX request to server and fetch JSON data

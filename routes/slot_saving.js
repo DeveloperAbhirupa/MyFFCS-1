@@ -1,4 +1,5 @@
 const profileModel = require("../database/model").profileModel;
+const model = require("../database/model").courseModel;
 const router = require("express").Router();
 var checkClash = require("../helpers").checkClash;
 
@@ -38,7 +39,7 @@ router.post("/save",async function(req,res){
 
     console.log("total credits = "+(parseInt(req.body.CREDITS)+variable.credits) );
 
-    //TODO check if applying for same course again
+    //TODO check if applying for same course again, TODO theory and lab clashes
     // if requested for a course which makes more than 27 total credits then throw alert
     if(variable.credits + parseInt(req.body.CREDITS) > 27)
         res.send( {status:"limit",info:27-variable.credits} );
@@ -57,19 +58,18 @@ router.post("/save",async function(req,res){
 
 });
 
-///////////////////////////////TODO-> Deleting//////////////////////////////////
 
 
+//deletes an element after clicking on a specific button
 router.delete('/del',(req,res)=>{
-
-    console.log(req.body.VENUE);
 
 
     profileModel.update( {email:req.session.email},{$pull: {courses:req.body} }  ).then( ()=>{
 
         console.log("removed course!");
 
-        res.send("deleted course");
+        //TODO res.redirect('/timetable') but it doesnt work
+        res.send("Deleted course")//res.redirect("/timetable");
 
     }).catch( (err)=>{
         console.log(err);
@@ -80,38 +80,35 @@ router.delete('/del',(req,res)=>{
 
 
 
+
+//predictive text, receives AJAX requests after typing every character in input box
+router.post('/predict',(req,res)=>{
+
+
+    var array=[],unique=[];
+
+    //matches regex for text
+    model.find( {CODE:  {$regex: req.body.code } } ).then((data)=>{
+
+        if(data===undefined) res.send('');
+
+        //to send only titles and course codes to the front end
+        for(element of data){
+            var obj = {code:element.CODE,title:element.TITLE} ;
+
+            //TODO need to remove duplicate results, but not working
+            if(array.indexOf(obj)===-1)
+                array.push(obj);
+
+            //to send just 5 results
+            if(array.length === 5)
+                break;
+        };
+
+        res.send(array);
+    });
+});
+
+
+
 module.exports = router;
-
-/*let kappa;
-
-//2. iterate through the array
- for(slot of slots){
-
-    //3. check regex match for slot in db, problem TODO /B1/g
-     kappa = await profileModel.findOne( {email:req.session.email} )
-    .then(function(data){
-            return data.courses;
-    }).catch( (err) => {
-        console.log(err);
-    });
-
-    if(kappa.length!==0){
-        console.log("This is "+kappa);
-        break;
-    }
-}
-
-
-if(!kappa.length){
-    profileModel.update( {email:req.session.email},{$push:{courses:req.body} } ).then(function(){
-        console.log("updated");
-    });
-}
-
-else{
-
-    console.log("Slot clashed");
-}
-
-
-*/
