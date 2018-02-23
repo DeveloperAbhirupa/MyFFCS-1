@@ -1,6 +1,10 @@
 //https://stackoverflow.com/questions/16827987/expressjs-throw-er-unhandled-error-event
 const express = require("express");
 
+//for Oauth-2.0 login
+const passport = require("passport");
+require('./auth_config/passport_setup.js')
+
 //session handler
 var session = require("express-session");
 
@@ -12,6 +16,12 @@ const main_router = require("./routes/route");
 
 //slot saving router function
 const saveslot_router = require("./routes/slot_saving");
+
+//no-sign-up router
+const nosignup = require("./routes/nosignup");
+
+//google+ Oauth-2.0 router
+const auth_router = require("./routes/auth_routes");
 
 //load database and save JSON data of courses in it
 require("./database/load_in_db");
@@ -32,11 +42,21 @@ app.use("/static",express.static("static"));
 //set up a session (It uses cookies)
 app.use(session({secret:"SecretCookieKey"}));
 
+//use passport js
+app.use(passport.initialize());
+app.use(passport.session());
+
 //call the main router
 app.use(main_router);
 
 //call slot router function
 app.use("/timetable",saveslot_router);
+
+//call no-sign-up router
+app.use("/nosignup",nosignup);
+
+//call Oauth-2.0 router for Google+ login
+app.use("/auth",auth_router);
 
 //listen on specified port
 const port = 3000;

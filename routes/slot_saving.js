@@ -8,6 +8,7 @@ var checkClash = require("../helpers").checkClash;
 
 router.get("/logout",(req,res)=>{
     req.session.email='';
+    if(req.user) req.logout();
     res.redirect('/');
 });
 

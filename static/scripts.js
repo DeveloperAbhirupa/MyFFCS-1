@@ -16,8 +16,9 @@ $(document).ready(function(){
         $.post("/timetable",input,function(res){
 
 
-            //Clear the html of data
+            //Clear the html of data and predictions
             $("#data").html('');
+            $("#predictions").html('');
 
 
             //parse the JSON that we have got back into object
