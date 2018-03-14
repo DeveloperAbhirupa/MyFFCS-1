@@ -1,8 +1,0 @@
-TODO-->
-1. confirm both passwords during sign up
-2. Add google+ API keys and session secret key in .gitignore
-3. figure out localStorage arrays
-
-
-
-hashes the googleID of user before saving him
