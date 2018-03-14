@@ -1,7 +1,7 @@
 //this function runs when any of the details button is clicked
 function store(data){
 
-    $.post("/timetable/save",data,function(res){
+    $.post("/timetable/save",data,(res)=>{
 
         if(res.status == "clashed"){
             alert("Slot(s) clashed! "+res.info+" Slot was clashed");
@@ -28,11 +28,11 @@ function del(element){
         url:'/timetable/del',
         type:'DELETE',
         data:element,
-        success:function(){
+        success:()=>{
             console.log("Successfully sent the delete request");
             location.reload();
         },
-        error:function(){
+        error:()=>{
             console.log("Error sending delete AJAX request");
         }
     });

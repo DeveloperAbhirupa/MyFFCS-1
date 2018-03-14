@@ -5,7 +5,7 @@ const salt = 10;
 
 
 //Function to segregate data to lab/theory slots and morning/evening slots
-module.exports.segregateData = function(data){
+module.exports.segregateData = (data)=>{
 
     var object = {
         theory:{ morning:[],evening:[] },
@@ -13,7 +13,7 @@ module.exports.segregateData = function(data){
         project:[]
     };
 
-    data.forEach(function(element){
+    data.forEach((element)=>{
 
 
         //If venue is NIL then it specifies project component of the course
@@ -57,18 +57,18 @@ module.exports.segregateData = function(data){
 
 
 //to generate a hash
-module.exports.hashAndSave = function(obj){
+module.exports.hashAndSave = (obj)=>{
 
-    return new Promise(function(resolve,reject){
+    return new Promise((resolve,reject)=>{
 
-        bcrypt.hash(obj.passwd, salt, function(err, hash) {
+        bcrypt.hash(obj.passwd, salt, (err, hash)=> {
 
             obj.passwd = hash;
 
-            obj.save().then(function(){
+            obj.save().then(()=>{
                 console.log("Save profile info");
                 resolve("Saved");
-            }).catch(function(err){
+            }).catch((err)=>{
                 reject(err);
             });
 

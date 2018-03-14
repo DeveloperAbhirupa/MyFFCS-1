@@ -17,7 +17,7 @@ passport.deserializeUser((user_email,done)=>{
     profileModel.findOne({email:user_email}).then((user)=>{
 
         done(null,user);
-    });
+    }).catch(err=>console.log(err));
 });
 
 
@@ -51,7 +51,7 @@ passport.use(
                             done(null,newUser);
                         });
 
-                    });
+                    }).catch(err=>console.log(err));
                 }
 
 

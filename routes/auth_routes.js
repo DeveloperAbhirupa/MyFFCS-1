@@ -13,7 +13,7 @@ router.get('/google',passport.authenticate('google',{
 
 //This path gets reached after google oauth, which returns a key as a get parameter. passport.authenticate
 //again authenticates the key for information exchange
-router.get('/google/redirect',passport.authenticate('google'),function(req,res){
+router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
     //callback URI
 
     req.session.email = req.user.email;

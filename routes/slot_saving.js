@@ -17,8 +17,8 @@ router.get("/logout",(req,res)=>{
 /* makes an array of clicked course slots and matches them against all alots in the database,
 if match found then slot clashed */
 //There is a better method to do this
-router.post("/save",async function(req,res){
 
+router.post("/save",async (req,res)=>{
     console.log(req.session.email+" Logged in");
 
     // make an array of slots of the courses being registered

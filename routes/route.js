@@ -17,14 +17,14 @@ const router = require("express").Router();
 
 
 
-router.get('/',function(req,res){
+router.get('/',(req,res)=>{
     res.render('index');
 });
 
 
 
 
-router.post('/',function(req,res){
+router.post('/',(req,res)=>{
 
     //if posted registration form
     if(req.body.confirm !== undefined){
@@ -37,11 +37,11 @@ router.post('/',function(req,res){
 
                 obj = new profileModel( { email:req.body.email,passwd:req.body.passwd,courses:[] } );
 
-                hashAndSave(obj).then(function(){
+                hashAndSave(obj).then(()=>{
                     //save user email in cookies
                     req.session.email = req.body.email;
                     res.redirect('/timetable');
-                });
+                }).catch(err=>console.log(err));
 
             }
 
@@ -56,7 +56,7 @@ router.post('/',function(req,res){
     //if trying to log in
     else{
 
-        profileModel.findOne( {email:req.body.email} ).then(function(data){
+        profileModel.findOne( {email:req.body.email} ).then((data)=>{
 
             if(data === null)
                 res.send("User not found");
@@ -65,7 +65,7 @@ router.post('/',function(req,res){
 
 
                 //check hash against password
-                bcrypt.compare(req.body.passwd,data.passwd,function(err,result){
+                bcrypt.compare(req.body.passwd,data.passwd,(err,result)=>{
 
 
                       if(result){
@@ -82,7 +82,7 @@ router.post('/',function(req,res){
             }
 
 
-    });
+    }).catch(err=>console.log(err));
 
     }
 
@@ -92,14 +92,14 @@ router.post('/',function(req,res){
 
 
 
-router.get("/timetable",function(req,res){
+router.get("/timetable",(req,res)=>{
     //add timetable looking up TODO
 
     profileModel.findOne( {email:req.session.email} ).then( (data)=>{
 
 
         //to calculate total number of credits
-        var credits = function(elements){
+        var credits = (elements)=>{
 
             var summ=0;
 
@@ -112,7 +112,7 @@ router.get("/timetable",function(req,res){
 
 
         res.render("timetable",{data:data.courses,credits:credits(data.courses)});
-    });
+    }).catch(err=>console.log(err));
 
 });
 
@@ -121,12 +121,12 @@ router.get("/timetable",function(req,res){
 
 
 
-router.post("/timetable",function(req,res){
+router.post("/timetable",(req,res)=>{
 
 
-    model.find(req.body).then(function(data){
+    model.find(req.body).then((data)=>{
 
-        var segregated_data = segregateData(data);
+        let segregated_data = segregateData(data);
 
         res.send( JSON.stringify(segregated_data) );
 

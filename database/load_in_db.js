@@ -5,24 +5,24 @@ var model = require("./model").courseModel;
 
 //function to load the JSON into database
 function load_json(){
-    return new Promise(function(resolve,reject){
+    return new Promise((resolve,reject)=>{
 
-        fs.open(__dirname +'/all_data.json','r',function(error,file_descriptor){
+        fs.open(__dirname +'/all_data.json','r',(error,file_descriptor)=>{
 
                 if(error) reject(error);
 
                 var count = 0;
 
-                fs.readFile(file_descriptor,'utf8',function(error,data){
+                fs.readFile(file_descriptor,'utf8',(error,data)=>{
 
-                    if(error) throw error
+                    if(error) console.log(error);
 
                     var obj = JSON.parse(data);
 
-                    obj.forEach(function(info){
+                    obj.forEach((info)=>{
 
                         var element = new model(info);
-                        element.save().then(function(){
+                        element.save().then(()=>{
                             count++;
                             console.log("saved an entry-->" + count.toString());
                         });
