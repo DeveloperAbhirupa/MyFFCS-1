@@ -1,8 +1,9 @@
 const passport = require("passport");
 const googleStrategy = require("passport-google-oauth20");
 const profileModel = require("../database/model").profileModel;
-
-
+//hash function for storing passwords
+const hashAndSave = require("../helpers").hashAndSave;
+const secret = require("../secret");
 
 //To stuff user email into a cookie
 passport.serializeUser((user,done)=>{
@@ -21,14 +22,14 @@ passport.deserializeUser((user_email,done)=>{
 
 
 
-
+//For GOOGLE+ OAUTH
 passport.use(
 
     new googleStrategy({
 
-        clientID:'1041308610761-n464nc77oqip396ukj86m69gqb1lmg5b.apps.googleusercontent.com',
-        clientSecret:'oK5N7s8GUFoyOCnVXVNLg1yV',
-        callbackURL:'/auth/google/redirect'
+        clientID:secret.clientID,
+        clientSecret:secret.clientSecret,
+        callbackURL:secret.callbackURL
     } , (accessToken,refreshToken,profile,done)=>{
 
             profileModel.findOne( {email:profile.displayName} ).then((user)=>{
@@ -36,14 +37,20 @@ passport.use(
                 //If no specified user existing in DB
                 if(!user){
 
-                    new profileModel({
+                    var obj = new profileModel({
                         email:profile.displayName,
                         passwd:profile.id,
                         courses:[]
-                    }).save().then((newUser)=>{
+                    });
 
-                        console.log("saved user to DB");
-                        done(null,newUser);
+                    hashAndSave(obj).then(()=>{
+
+                        profileModel.findOne({email:obj.email}).then((user)=>{
+
+                            console.log("saved user to DB");
+                            done(null,newUser);
+                        });
+
                     });
                 }
 
@@ -58,3 +65,12 @@ passport.use(
 
     })
 )
+
+
+
+
+
+
+
+
+//TODO FACEBOOK USER OAUTH

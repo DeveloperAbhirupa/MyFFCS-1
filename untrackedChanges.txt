@@ -1,7 +1,8 @@
 TODO-->
 1. confirm both passwords during sign up
-2.
+2. Add google+ API keys and session secret key in .gitignore
+3. figure out localStorage arrays
 
 
 
-created a new view for nosignup, a new script, and a new router, buthow to make a localStorage array?,created google+ oauth-2.0 which saves user display name as email field and user google ID as their password
+hashes the googleID of user before saving him

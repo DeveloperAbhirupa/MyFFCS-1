@@ -1,6 +1,6 @@
 //https://stackoverflow.com/questions/16827987/expressjs-throw-er-unhandled-error-event
 const express = require("express");
-
+const secret = require("./secret");
 //for Oauth-2.0 login
 const passport = require("passport");
 require('./auth_config/passport_setup.js')
@@ -40,7 +40,7 @@ app.set("view engine","ejs");
 app.use("/static",express.static("static"));
 
 //set up a session (It uses cookies)
-app.use(session({secret:"SecretCookieKey"}));
+app.use(session({secret:secret.cookieSecretKey}));
 
 //use passport js
 app.use(passport.initialize());

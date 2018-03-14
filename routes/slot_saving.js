@@ -41,6 +41,7 @@ router.post("/save",async function(req,res){
     console.log("total credits = "+(parseInt(req.body.CREDITS)+variable.credits) );
 
     //TODO check if applying for same course again, TODO theory and lab clashes
+
     // if requested for a course which makes more than 27 total credits then throw alert
     if(variable.credits + parseInt(req.body.CREDITS) > 27)
         res.send( {status:"limit",info:27-variable.credits} );
@@ -105,7 +106,7 @@ router.post('/predict',(req,res)=>{
             if(array.length === 5)
                 break;
         };
-
+        //console.log(array);
         res.send(array);
     });
 });
