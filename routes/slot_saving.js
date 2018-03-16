@@ -2,11 +2,12 @@ const profileModel = require("../database/model").profileModel;
 const model = require("../database/model").courseModel;
 const router = require("express").Router();
 var checkClash = require("../helpers").checkClash;
+var verifyRoute = require("../helpers").verifyRoute;
 
 
 
 
-router.get("/logout",(req,res)=>{
+router.get("/logout",verifyRoute,(req,res)=>{
     req.session.email='';
     if(req.user) req.logout();
     res.redirect('/');
@@ -18,7 +19,7 @@ router.get("/logout",(req,res)=>{
 if match found then slot clashed */
 //There is a better method to do this
 
-router.post("/save",async (req,res)=>{
+router.post("/save",verifyRoute,async (req,res)=>{
     console.log(req.session.email+" Logged in");
 
     // make an array of slots of the courses being registered
@@ -63,7 +64,7 @@ router.post("/save",async (req,res)=>{
 
 
 //deletes an element after clicking on a specific button
-router.delete('/del',(req,res)=>{
+router.delete('/del',verifyRoute,(req,res)=>{
 
 
     profileModel.update( {email:req.session.email},{$pull: {courses:req.body} }  ).then( ()=>{
@@ -84,7 +85,7 @@ router.delete('/del',(req,res)=>{
 
 
 //predictive text, receives AJAX requests after typing every character in input box
-router.post('/predict',(req,res)=>{
+router.post('/predict',verifyRoute,(req,res)=>{
 
 
     var array=[],unique=[];

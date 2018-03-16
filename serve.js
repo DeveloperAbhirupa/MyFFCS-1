@@ -40,7 +40,10 @@ app.set("view engine","ejs");
 app.use("/static",express.static("static"));
 
 //set up a session (It uses cookies)
-app.use(session({secret:secret.cookieSecretKey}));
+app.use(session({secret:secret.cookieSecretKey,
+                        saveUninitialized:false,
+                        resave:false
+                    }));
 
 //use passport js
 app.use(passport.initialize());

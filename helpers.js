@@ -94,3 +94,12 @@ module.exports.checkClash = (slots,string)=>{
     }
     return false;
 }
+
+
+
+
+module.exports.verifyRoute = (req,res,next)=>{
+
+    if(req.session.email===undefined) res.sendStatus(403);
+    else next();
+}

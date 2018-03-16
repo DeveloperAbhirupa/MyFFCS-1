@@ -7,6 +7,9 @@ const segregateData = require("../helpers").segregateData;
 //hash function for storing passwords
 const hashAndSave = require("../helpers").hashAndSave;
 
+//verification middleware
+const verifyRoute = require("../helpers").verifyRoute;
+
 //to check hashed password
 const bcrypt = require("bcrypt");
 
@@ -92,7 +95,7 @@ router.post('/',(req,res)=>{
 
 
 
-router.get("/timetable",(req,res)=>{
+router.get("/timetable",verifyRoute,(req,res)=>{
     //add timetable looking up TODO
 
     profileModel.findOne( {email:req.session.email} ).then( (data)=>{
@@ -121,7 +124,7 @@ router.get("/timetable",(req,res)=>{
 
 
 
-router.post("/timetable",(req,res)=>{
+router.post("/timetable",verifyRoute,(req,res)=>{
 
 
     model.find(req.body).then((data)=>{
